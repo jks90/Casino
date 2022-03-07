@@ -26,7 +26,11 @@ Want to do more? (OPTIONAL)
 Thank you for your time!
 
 
+# Docker
 
+- docker build -t juankanh/casino:0.1 .
+- docker push juankanh/casino:0.1
+- docker run --name casino -p 8080:8080 -ti juankanh/casino:0.1
 
 
 

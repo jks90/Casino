@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "7d47a3e7-3a50-4d94-bdbe-4437941f87a3",
+		"name": "casino",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/v1/api/config",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"costTime\": 6000, \"gameType\": { \"id\": \"f297388b-9c3c-47da-9b9d-ff72f358dc45\" }, \"maxBet\": 10000, \"minBet\": 1, \"prize\": 6660, \"provability\": 2}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/api/config",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"api",
+						"config"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/api/player",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"idPlayer\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/v1/api/player?amount=500&uuidProvider=0d31b146-f1ef-4b49-8dd1-98fea042610a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"api",
+						"player"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "500"
+						},
+						{
+							"key": "uuidProvider",
+							"value": "0d31b146-f1ef-4b49-8dd1-98fea042610a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/api/player/:idPlayer/config/:idconfig",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"idBet\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/v1/api/player/:idPlayer/config/:idconfig",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"api",
+						"player",
+						":idPlayer",
+						"config",
+						":idconfig"
+					],
+					"variable": [
+						{
+							"key": "idPlayer",
+							"value": "{{idPlayer}}"
+						},
+						{
+							"key": "idconfig",
+							"value": "6e67fca9-ff50-414e-ac77-309cbf3601cd"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/api/bet/:idBet/moreAmount",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/v1/api/bet/:idBet/moreAmount?amount=45",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"api",
+						"bet",
+						":idBet",
+						"moreAmount"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "45"
+						}
+					],
+					"variable": [
+						{
+							"key": "idBet",
+							"value": "{{idBet}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/api/player/:idPlayer/balance",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/v1/api/player/:idPlayer/balance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"api",
+						"player",
+						":idPlayer",
+						"balance"
+					],
+					"variable": [
+						{
+							"key": "idPlayer",
+							"value": "{{idPlayer}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/api/games",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/v1/api/games",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"api",
+						"games"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/api/config/:idGameType",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/v1/api/config/:idGameType",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"api",
+						"config",
+						":idGameType"
+					],
+					"variable": [
+						{
+							"key": "idGameType",
+							"value": "fb74e2ca-3735-4fa4-8363-f2716e1570ed"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
