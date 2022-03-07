@@ -1,21 +1,21 @@
 package com.zitro.test.casino.transformer;
 
-import com.zitro.test.casino.models.PlayerConfig;
-import com.zitro.test.casino.models.PlayerConfig.PlayerConfigBuilder;
+import com.zitro.test.casino.models.Bet;
+import com.zitro.test.casino.models.Bet.BetBuilder;
 import com.zitro.test.game.service.dto.PlayerConfigDto;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-03-07T15:27:20+0100",
+    date = "2022-03-07T18:42:27+0100",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.12 (Oracle Corporation)"
 )
 @Component
 public class PlayerConfigMapperImpl implements PlayerConfigMapper {
 
     @Override
-    public PlayerConfigDto PlayerConfigToPlayerConfigDto(PlayerConfig entity) {
+    public PlayerConfigDto PlayerConfigToPlayerConfigDto(Bet entity) {
         if ( entity == null ) {
             return null;
         }
@@ -32,19 +32,19 @@ public class PlayerConfigMapperImpl implements PlayerConfigMapper {
     }
 
     @Override
-    public PlayerConfig playerConfigDtotoPlayerConfig(PlayerConfigDto dto) {
+    public Bet playerConfigDtotoPlayerConfig(PlayerConfigDto dto) {
         if ( dto == null ) {
             return null;
         }
 
-        PlayerConfigBuilder playerConfig = PlayerConfig.builder();
+        BetBuilder bet = Bet.builder();
 
-        playerConfig.id( dto.getId() );
-        playerConfig.player( dto.getPlayer() );
-        playerConfig.configurations( dto.getConfigurations() );
-        playerConfig.timeCreate( dto.getTimeCreate() );
-        playerConfig.status( dto.getStatus() );
+        bet.id( dto.getId() );
+        bet.player( dto.getPlayer() );
+        bet.configurations( dto.getConfigurations() );
+        bet.timeCreate( dto.getTimeCreate() );
+        bet.status( dto.getStatus() );
 
-        return playerConfig.build();
+        return bet.build();
     }
 }

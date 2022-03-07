@@ -1,9 +1,9 @@
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\constants\Constants.java
+C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\repositories\BetRepository.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\models\Players.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\transformer\GamesMapper.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\validators\impl\CasinoValidatorImpl.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\transformer\ConfigurationsMapper.java
-C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\models\PlayerConfig.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\repositories\PlayersRepository.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\repositories\PrizeRepository.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\game\service\dto\RoundResponseDto.java
@@ -14,9 +14,11 @@ C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\game\s
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\game\service\dto\PlayersDto.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\transformer\UsersProvidersMapper.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\config\SwaggerConfig.java
+C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\models\Bet.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\game\service\dto\UsersProvidersDto.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\controllers\CasinoController.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\game\service\dto\ConfigurationsDto.java
+C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\models\BetTrace.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\models\Prize.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\game\service\dto\PrizeDto.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\models\Games.java
@@ -30,7 +32,7 @@ C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\Application.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\game\service\dto\GamesDto.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\service\CasinoService.java
+C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\repositories\BetTraceRepository.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\transformer\PlayersMapper.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\exceptions\CasinoException.java
 C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\models\UsersProviders.java
-C:\Users\jkind\eclipse-workspace\casino-test\src\main\java\com\zitro\test\casino\repositories\PlayerConfigRepository.java

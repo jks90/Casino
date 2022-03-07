@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import com.zitro.test.casino.constants.Constants;
 import com.zitro.test.casino.exceptions.CasinoException;
 import com.zitro.test.casino.models.Configurations;
-import com.zitro.test.casino.models.PlayerConfig;
+import com.zitro.test.casino.models.Bet;
 import com.zitro.test.casino.models.Players;
 import com.zitro.test.casino.models.UsersProviders;
 import com.zitro.test.casino.repositories.ConfigurationsRepository;
-import com.zitro.test.casino.repositories.PlayerConfigRepository;
+import com.zitro.test.casino.repositories.BetRepository;
 import com.zitro.test.casino.repositories.PlayersRepository;
 import com.zitro.test.casino.repositories.UsersProvidersRepository;
 import com.zitro.test.casino.validators.CasinoValidator;
@@ -33,7 +33,7 @@ public class CasinoValidatorImpl implements CasinoValidator{
 	private PlayersRepository playersRepository;
 	
 	@Autowired
-	private PlayerConfigRepository playerConfigRepository;
+	private BetRepository betRepository;
 
 	@Override
 	public void createConfig(ConfigurationsDto config) throws CasinoException {
@@ -47,7 +47,7 @@ public class CasinoValidatorImpl implements CasinoValidator{
 		}
 		
 		if(config.getMinBet() <= 0) {
-			throw new CasinoException(Constants.MAX_BET_NOT_FOUND);
+			throw new CasinoException(Constants.MIN_BET_NOT_FOUND);
 		}
 		
 		if(config.getMinBet() > config.getMaxBet()) {
@@ -58,7 +58,7 @@ public class CasinoValidatorImpl implements CasinoValidator{
 			throw new CasinoException(Constants.PRIZE_NOT_FOUND);
 		}
 		
-		if(config.getProvability() <= 0 && config.getProvability() >= 100) {
+		if(config.getProvability() <= 0 || config.getProvability() >= 100) {
 			throw new CasinoException(Constants.PROVABILITY_NOT_FOUND);
 		}
 	}
@@ -92,7 +92,7 @@ public class CasinoValidatorImpl implements CasinoValidator{
 
 	@Override
 	public void updateAmountBet(String idBet, Double amount) throws CasinoException {
-		Optional<PlayerConfig> betTarget = playerConfigRepository.findById(UUID.fromString(idBet));
+		Optional<Bet> betTarget = betRepository.findById(UUID.fromString(idBet));
 		if(!betTarget.isPresent()) {
 			throw new CasinoException(Constants.PLAYER_CONFIGURATIONS_NOT_FOUND);
 		}else {

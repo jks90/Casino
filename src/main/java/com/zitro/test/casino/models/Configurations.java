@@ -15,18 +15,20 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="CONFIG")
+@Table(name="CONFIGURATIONS")
 public class Configurations implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
@@ -54,5 +56,5 @@ public class Configurations implements Serializable  {
 	private Long costTime;
 	
 	@OneToMany(mappedBy = "player")
-    Set<PlayerConfig> playerConfig;
+    Set<Bet> bet;
 }

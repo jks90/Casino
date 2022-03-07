@@ -19,12 +19,14 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -53,7 +55,7 @@ public class Players implements Serializable {
 	private UsersProviders userProvider;
 	
 	@OneToMany(mappedBy = "configurations")
-    Set<PlayerConfig> playerConfig;
+    Set<Bet> playerBetConfig;
 	
 	
 	@ManyToMany

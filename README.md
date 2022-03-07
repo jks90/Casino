@@ -36,11 +36,11 @@ tipo de juego se refiere al juego en si, un juego no puede ser de dos tipos
 
 juego -> tipo
 
-videoBingo -> Sorteo
-slot -> Sorteo
-Blackjack -> Competición
-Poker -> Competición
-Ruleta -> apuesta
+- videoBingo -> Sorteo
+- slot -> Sorteo
+- Blackjack -> Competición
+- Poker -> Competición
+- Ruleta -> apuesta
 
 y aun así sorteo y apuesta diría que son lo mismo.
 

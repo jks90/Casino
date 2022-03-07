@@ -15,13 +15,13 @@ import com.zitro.test.casino.exceptions.CasinoException;
 import com.zitro.test.casino.models.BetTrace;
 import com.zitro.test.casino.models.Configurations;
 import com.zitro.test.casino.models.Games;
-import com.zitro.test.casino.models.PlayerConfig;
+import com.zitro.test.casino.models.Bet;
 import com.zitro.test.casino.models.Players;
 import com.zitro.test.casino.models.Prize;
 import com.zitro.test.casino.repositories.BetTraceRepository;
 import com.zitro.test.casino.repositories.ConfigurationsRepository;
 import com.zitro.test.casino.repositories.GamesRepository;
-import com.zitro.test.casino.repositories.PlayerConfigRepository;
+import com.zitro.test.casino.repositories.BetRepository;
 import com.zitro.test.casino.repositories.PlayersRepository;
 import com.zitro.test.casino.repositories.PrizeRepository;
 import com.zitro.test.casino.service.CasinoService;
@@ -64,7 +64,7 @@ public class CasinoServiceImpl implements CasinoService {
 	private UsersProvidersMapper usersProvidersMapper;
 
 	@Autowired
-	private PlayerConfigRepository playerConfigRepository;
+	private BetRepository betRepository;
 	
 	@Autowired
 	private PrizeMapper prizeMapper;
@@ -143,21 +143,21 @@ public class CasinoServiceImpl implements CasinoService {
 		Optional<Configurations> configTarget = configurationsRepository.findById(round.getGameConfigId());
 		if (playerTarget.isPresent() && configTarget.isPresent()) {
 
-			PlayerConfig playerConfigTarget = playerConfigRepository.save(PlayerConfig.builder()
+			Bet betTarget = betRepository.save(Bet.builder()
 					.player(playerTarget.get())
 					.configurations(configTarget.get())
 					.status(RoundStatus.ACTIVE)
 					.timeCreate(new Date()).build());
 
-			log.info("Game: " + playerConfigTarget.getId());
+			log.info("Game: " + betTarget.getId());
 			return RoundResponseDto.builder()
-					.id(playerConfigTarget.getId())
-					.userId(playerConfigTarget.getPlayer().getId())
-					.gameConfigId(playerConfigTarget.getConfigurations().getId())
-					.status(playerConfigTarget.getStatus())
-					.creationDate(playerConfigTarget.getTimeCreate())
-					.balance(playerConfigTarget.getPlayer().getBalance())
-					.prizes(prizeMapper.prizeListToPrizeDtoList(playerConfigTarget.getPlayer().getListadoPrices()))
+					.id(betTarget.getId())
+					.userId(betTarget.getPlayer().getId())
+					.gameConfigId(betTarget.getConfigurations().getId())
+					.status(betTarget.getStatus())
+					.creationDate(betTarget.getTimeCreate())
+					.balance(betTarget.getPlayer().getBalance())
+					.prizes(prizeMapper.prizeListToPrizeDtoList(betTarget.getPlayer().getListadoPrices()))
 					.playingTime(0L)
 					.build();
 
@@ -168,91 +168,91 @@ public class CasinoServiceImpl implements CasinoService {
 
 	@Override
 	public RoundResponseDto bet(UUID roundId, Double amount) throws CasinoException {
-		Optional<PlayerConfig> playerConfigTarget = playerConfigRepository.findById(roundId);
-		if (playerConfigTarget.isPresent()) {
-			log.info("bet: " + playerConfigTarget.get().getPlayer().getId().toString());
-			playerConfigTarget.get().getPlayer().setTimePlaying(playerConfigTarget.get().getPlayer().getTimePlaying() + playerConfigTarget.get().getConfigurations().getCostTime());
-			playerConfigTarget.get().getPlayer().setTimeLimit(playerConfigTarget.get().getPlayer().getTimeLimit() - playerConfigTarget.get().getConfigurations().getCostTime());
+		Optional<Bet> betTarget = betRepository.findById(roundId);
+		if (betTarget.isPresent()) {
+			log.info("bet: " + betTarget.get().getPlayer().getId().toString());
+			betTarget.get().getPlayer().setTimePlaying(betTarget.get().getPlayer().getTimePlaying() + betTarget.get().getConfigurations().getCostTime());
+			betTarget.get().getPlayer().setTimeLimit(betTarget.get().getPlayer().getTimeLimit() - betTarget.get().getConfigurations().getCostTime());
 			
 			List<BetTrace> listBetTraces = new ArrayList<BetTrace>();
 			StringBuilder info = new StringBuilder();
-			if(jugada(playerConfigTarget.get().getConfigurations())) {
+			if(jugada(betTarget.get().getConfigurations())) {
 				//toca
-				playerConfigTarget.get().getPlayer().setBalance(playerConfigTarget.get().getPlayer().getBalance() + playerConfigTarget.get().getConfigurations().getPrize());
-				playerConfigTarget.get().setStatus(RoundStatus.FINISHED);
+				betTarget.get().getPlayer().setBalance(betTarget.get().getPlayer().getBalance() + betTarget.get().getConfigurations().getPrize());
+				betTarget.get().setStatus(RoundStatus.FINISHED);
 				
 				Prize prizeSaved = prizeRepository.save(Prize.builder()
-											.name(playerConfigTarget.get().getConfigurations().getGameType().getName())
-											.prize(playerConfigTarget.get().getConfigurations().getPrize().longValue())
+											.name(betTarget.get().getConfigurations().getGameType().getName())
+											.prize(betTarget.get().getConfigurations().getPrize().longValue())
 											.build());
 				List<Prize> listPrize = new ArrayList<Prize>();
 				
 				
-				listPrize.addAll(playerConfigTarget.get().getPlayer().getListadoPrices());
+				listPrize.addAll(betTarget.get().getPlayer().getListadoPrices());
 				listPrize.add(prizeSaved);
-				playerConfigTarget.get().getPlayer().setListadoPrices(listPrize);
+				betTarget.get().getPlayer().setListadoPrices(listPrize);
 				
 				BetTrace betTrace = new BetTrace();
 				betTrace.setTimeBetCreate(new Date());
 				betTrace.setAmount(amount);
 				betTrace.setResult(true);
-				betTrace.setTotalPlayer(playerConfigTarget.get().getPlayer().getBalance());
+				betTrace.setTotalPlayer(betTarget.get().getPlayer().getBalance());
 				betTraceRepository.save(betTrace);
 				
-				listBetTraces.addAll(playerConfigTarget.get().getListadoBetTraces());
+				listBetTraces.addAll(betTarget.get().getListadoBetTraces());
 				listBetTraces.add(betTrace);
 				
 				info.append("PREMIO: ");
-				info.append(playerConfigTarget.get().getPlayer().getId().toString());
+				info.append(betTarget.get().getPlayer().getId().toString());
 				info.append(" GANA: ");
-				info.append(playerConfigTarget.get().getConfigurations().getPrize());
+				info.append(betTarget.get().getConfigurations().getPrize());
 				info.append(" TOTAL: ");
-				info.append(playerConfigTarget.get().getPlayer().getBalance().toString());
+				info.append(betTarget.get().getPlayer().getBalance().toString());
 				info.append(" GAME: ");
-				info.append(playerConfigTarget.get().getConfigurations().getGameType().getName());
+				info.append(betTarget.get().getConfigurations().getGameType().getName());
 				info.append(" TIME PLAYING: ");
-				info.append(playerConfigTarget.get().getPlayer().getTimePlaying());
+				info.append(betTarget.get().getPlayer().getTimePlaying());
 				
 			}else {
 				//no toca
-				playerConfigTarget.get().getPlayer().setBalance(playerConfigTarget.get().getPlayer().getBalance() - amount);
+				betTarget.get().getPlayer().setBalance(betTarget.get().getPlayer().getBalance() - amount);
 				
 				BetTrace betTrace = new BetTrace();
 				betTrace.setTimeBetCreate(new Date());
 				betTrace.setAmount(amount);
 				betTrace.setResult(false);
-				betTrace.setTotalPlayer(playerConfigTarget.get().getPlayer().getBalance());
+				betTrace.setTotalPlayer(betTarget.get().getPlayer().getBalance());
 				betTraceRepository.save(betTrace);
 				
-				listBetTraces.addAll(playerConfigTarget.get().getListadoBetTraces());
+				listBetTraces.addAll(betTarget.get().getListadoBetTraces());
 				listBetTraces.add(betTrace);
 				
 				info.append("SIGUE JUGANDO: ");
-				info.append(playerConfigTarget.get().getPlayer().getId().toString());
+				info.append(betTarget.get().getPlayer().getId().toString());
 				info.append(" PIERDE: ");
 				info.append(amount);
 				info.append(" TOTAL: ");
-				info.append(playerConfigTarget.get().getPlayer().getBalance().toString());
+				info.append(betTarget.get().getPlayer().getBalance().toString());
 				info.append(" GAME: ");
-				info.append(playerConfigTarget.get().getConfigurations().getGameType().getName());
+				info.append(betTarget.get().getConfigurations().getGameType().getName());
 				info.append(" TIME PLAYING: ");
-				info.append(playerConfigTarget.get().getPlayer().getTimePlaying());
+				info.append(betTarget.get().getPlayer().getTimePlaying());
 				
 			}
 			log.info(info.toString());
 			
-			playerConfigTarget.get().setListadoBetTraces(listBetTraces);
-			playerConfigRepository.save(playerConfigTarget.get());
+			betTarget.get().setListadoBetTraces(listBetTraces);
+			betRepository.save(betTarget.get());
 			
 			return RoundResponseDto.builder()
-					.id(playerConfigTarget.get().getId())
-					.userId(playerConfigTarget.get().getPlayer().getId())
-					.gameConfigId(playerConfigTarget.get().getConfigurations().getId())
-					.status(playerConfigTarget.get().getStatus())
-					.creationDate(playerConfigTarget.get().getTimeCreate())
-					.balance(playerConfigTarget.get().getPlayer().getBalance())
-					.playingTime(playerConfigTarget.get().getPlayer().getTimePlaying())
-					.prizes(prizeMapper.prizeListToPrizeDtoList(playerConfigTarget.get().getPlayer().getListadoPrices()))
+					.id(betTarget.get().getId())
+					.userId(betTarget.get().getPlayer().getId())
+					.gameConfigId(betTarget.get().getConfigurations().getId())
+					.status(betTarget.get().getStatus())
+					.creationDate(betTarget.get().getTimeCreate())
+					.balance(betTarget.get().getPlayer().getBalance())
+					.playingTime(betTarget.get().getPlayer().getTimePlaying())
+					.prizes(prizeMapper.prizeListToPrizeDtoList(betTarget.get().getPlayer().getListadoPrices()))
 					.build();
 		} else {
 			throw new CasinoException(Constants.PLAYER_CONFIGURATIONS_NOT_FOUND);
