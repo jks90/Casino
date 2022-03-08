@@ -76,8 +76,15 @@ Formula de la probabilidad duda de si es la correcta.
 
 
 
-
-
+SELECT * FROM BETS bets
+INNER JOIN CONFIGURATIONS conf ON conf.id = bets.CONFIGURATIONS_ID 
+INNER JOIN PLAYERS player ON player.id = bets.PLAYERS_ID  
+INNER JOIN BET_BET_TRACE betrace ON bets.id = betrace.BET_ID
+INNER JOIN BET_TRACES trace ON betrace.BET_TRACE_ID = trace.id
+INNER JOIN PROVIDERS provi ON player.USER_PROVIDER_ID = provi.id
+INNER JOIN PLAYER_PRIZE plepri ON plepri.PLAYERS_ID = player.id
+INNER JOIN PRIZES pri ON plepri.PRIZE_ID = pri.id
+where player.id = 'dcc25b12ad0743e99e8da105bad9d695'
 
 
 
